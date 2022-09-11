@@ -1,0 +1,12 @@
+mixin video(info)
+  a(href=`/videos/${info.id}`).video-mixin
+    if(info.thumbnailUrl.startsWith("upload"))
+      div.video-mixin__thumb(style=`background-image:url(/${info.thumbnailUrl});`)
+    if(info.thumbnailUrl.startsWith("http"))
+      div.video-mixin__thumb(style=`background-image:url(${info.thumbnailUrl});`)
+    div.video-mixin__data
+      span.video-mixin__title=info.title
+      div.video-mixin__meta
+        span #{info.owner.username} •  
+        span #{info.meta.views} 회 • 
+        span Posted #{info.createdAtFromNow}.

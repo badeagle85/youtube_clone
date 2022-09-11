@@ -1,0 +1,36 @@
+header 
+  nav.navbar 
+    div.navbar__left
+      span#hamburger.navbar__hamburger
+        i.fas.fa-bars
+      a(href="/").navbar__logo
+        i.fab.fa-youtube
+        span Hue Video
+
+    div.navber__search
+      form(action="search" method="GET").search__form.nform
+        input(placeholder="Search by title", type="text", name="keyword")
+        button
+          i.fas.fa-search
+    div.navbar__right
+      ul
+        if isLogin  
+          li 
+            a(href="/videos/upload") 
+              i.fas.fa-video
+          li 
+            a(href="/users/logout")
+              i.fas.fa-sign-out-alt
+          li 
+            a(href=`/users/${loginUser._id}`)
+              if (loginUser.avatar)
+                if(loginUser.avatar.startsWith("http"))
+                  img(src=loginUser.avatar).avatar.avatar__smallprofile
+                else
+                  img(src="/" + loginUser.avatar).avatar.avatar__smallprofile
+        else 
+          li 
+            a(href="/login") Sign in
+          li 
+            a(href="/join").header__btn Sign up
+

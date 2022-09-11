@@ -1,0 +1,21 @@
+extends ../base.pug
+include ../mixin/video.pug
+
+block content
+  div.profile__data
+    if (user.avatar)
+      if(user.avatar.startsWith("http"))
+        img(src=user.avatar).avatar
+      else
+        img(src="/" + user.avatar).avatar
+    h3=user.username
+
+  div.video-grid
+    each video in user.videos
+      +video(video)
+    else
+      span.empty__message No videos found 
+  div.profile__menu
+    if (String(loginUser._id) === String(user._id))
+      a(href="/users/edit") Edit profile &rarr;
+      a(href="/users/delete" onclick="return confirm('Your videos and comments are PERMANTLY REMOVED. Would you still like to DELETE?')") Delete user &rarr;

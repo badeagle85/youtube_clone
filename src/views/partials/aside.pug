@@ -1,0 +1,25 @@
+aside 
+	nav#navigation.aside__navigation
+		div.aside__column
+			ul
+				a(href="/")
+					li
+						i.fas.fa-home
+						span Home 
+				a(href="/search")
+					li
+						i.fas.fa-compass
+						span Search 
+		
+		div.aside__column
+			ul#subscribe 
+				if isLogin
+					a(href="/")
+						li 
+							img(src=loginUser.avatar).avatar.avatar__subscriptions
+							span=loginUser.username
+				else 
+					li.aside__button
+						a(href="/login")  Sign in
+
+	include footer.pug

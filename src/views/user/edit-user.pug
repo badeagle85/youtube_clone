@@ -1,0 +1,22 @@
+extends ../base.pug
+
+block content
+  if errMessage
+    h3=errMessage
+  div.profile__data
+    if (loginUser.avatar)
+      if(loginUser.avatar.startsWith("upload"))
+        img(src="/" + loginUser.avatar crossorigin).avatar
+      if(loginUser.avatar.startsWith("http"))
+        img(src=loginUser.avatar crossorigin).avatar
+
+  form(method="POST", enctype="multipart/form-data").edit-profile__form
+    label(for="avatar") Avatar
+    input(id="avatar", name="avatar", type="file", accept="image/*")
+    input(placeholder="Username", name="username", type="text", required, value=loginUser.username)
+    input(placeholder="Email", name="email", type="email", required, value=loginUser.email)
+    input(type="submit", value="Update Profile") 
+    
+  if !loginUser.socialOnly
+    div.edit-profile__password
+      a(href="change-password") Change Password &rarr; 

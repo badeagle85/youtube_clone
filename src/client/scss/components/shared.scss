@@ -1,0 +1,33 @@
+.empty__message {
+  margin-bottom: 50px;
+  font-size: 18px;
+}
+.video-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 40px;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.avatar__smallprofile {
+  width: 48px;
+  height: 48px;
+}
+
+.avatar__subscriptions {
+  width: 32px;
+  height: 32px;
+}

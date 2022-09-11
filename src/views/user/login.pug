@@ -1,0 +1,14 @@
+extends ../base.pug
+
+block content 
+  if errMessage
+    h3=errMessage
+  form(method="POST")
+      input(type="text", name="username", placeholder="Username", required)
+      input(type="password", name="password", placeholder="Password", required)
+      input(type="submit", value="Sign in")
+      div
+        include ../partials/social-login.pug
+  div.auth-switch
+    span Dont have account? 
+    a(href="/join") Sing up Now! &rarr;

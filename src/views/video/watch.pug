@@ -1,0 +1,109 @@
+extends ../base.pug
+include ../mixin/video.pug
+
+block content 
+  div.video-section
+    div.main-video-section
+      div(data-id=video._id)#video-container.video-container
+        if(video.videoUrl.startsWith("upload"))
+          video(src=`/${video.videoUrl}`)
+        if(video.videoUrl.startsWith("http"))
+          video(src=video.videoUrl)
+
+        div#control.control
+          div.control__play
+            span#play.control__play-button
+              i.fas.fa-play
+            div.control__time
+              span#currentTime 00:00
+              span  / 
+              span#totalTime 00:00
+          input(type="range",value=0, min="0", step="1")#timeline
+          
+          div.control__volume
+            input(type="range",value=0.3, min="0", max="1", step="0.01")#volume
+            span#mute
+              i.fas.fa-volume-up 
+          div 
+            span#fullscreen
+              i.fas.fa-expand
+
+      div.video__data
+        div.video__data__column
+          div.video__hashtags
+            each tag in video.hashtags
+              span #{tag}ㅤ
+          h2.video__title=video.title
+        
+        div.video__data__column.video__meta
+          div
+            small.video__views #{video.meta.views} views
+            small.video__createdAt #{new Date(video.createdAt).toLocaleDateString("en-us", {year: 'numeric', month: 'short', day: 'numeric'})}
+          //- TODO: 더보기, 간략히 기능
+          small.video__description=video.description
+          
+        div.video__data__column.video__owner
+          div.video__owner__info
+            a(href=`/users/${video.owner._id}`)
+              if video.owner.avatar.startsWith("http")
+                img(src=video.owner.avatar)
+              else 
+                img(src=`/${video.owner.avatar}`)
+            a(href=`/users/${video.owner._id}`) 
+              span=video.owner.username
+          button#subscribe-button 구독
+
+      - const ownerCorrect = String(video.owner._id) === String(loginUser._id)
+      if ownerCorrect
+        div.video__handleMenu
+          a(href=`${video.id}/edit`) 
+            span Edit Video &rarr;
+          a(href=`${video.id}/delete` onclick="return confirm('Are you sure you want to delete this?')") 
+            span Delete Video &rarr;
+
+      if isLogin
+        div.video__add-comment
+          //- TODO Submit when press enter.
+          form#comment-form.comment-form.nform 
+            textarea(cols="1000", rows="3", placeholder="Write a comment")#textarea
+            button Add
+
+      div#video-comments.comments 
+        ul
+          each comment in video.comments.reverse()
+            li(data-id=comment._id).comments__comment
+              div.comments__payloads
+                if comment.owner.avatar.startsWith("http")
+                  img(src=comment.owner.avatar)
+                else 
+                  img(src=`/${comment.owner.avatar}`)
+                div.comments__contents
+                  div.comments__commentinfo
+                    span=comment.owner.username
+                    span.comments__createdAt=comment.createdAtFromNow
+                  div.comments__text
+                    span#comment-text=comment.text
+                  div.comment__like
+                    i.far.fa-thumbs-up
+                    i.far.fa-thumbs-down
+                    span report
+                    
+              if String(loginUser._id) === String(comment.owner._id)
+                div(name="handleComment").comment__menu
+                  span#comments-edit
+                    i.fas.fa-pen
+                  span#comments-delete
+                    i.fas.fa-trash-alt
+
+    div.sub-video-section
+      h3 Recommand Videos
+      each video in videos
+          +video(video)
+
+
+
+block scripts 
+  script(src="/static/js/videoPlayer.js") 
+  if isLogin
+    script(src="/static/js/commentSection.js") 
+  
